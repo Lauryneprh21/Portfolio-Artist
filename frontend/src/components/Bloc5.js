@@ -3,26 +3,21 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import AuthContext from '../AuthContext';
 import '../styles/Bloc5.css';
 
 const Bloc5 = () => {
-  const { isAdmin } = useContext(AuthContext); // On récupère le contexte pour savoir si l'utilisateur est admin.
+  const { isAdmin } = useContext(AuthContext); 
 
  
   const [oeuvres, setOeuvres] = useState([]);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(''); // Filtre par catégorie sélectionnée.
-  const [selectedTag, setSelectedTag] = useState(''); // Filtre par tag sélectionné.
-  const [editingOeuvre, setEditingOeuvre] = useState(null); // Œuvre en cours d'édition.
+  const [selectedCategory, setSelectedCategory] = useState(''); 
+  const [selectedTag, setSelectedTag] = useState(''); 
+  const [editingOeuvre, setEditingOeuvre] = useState(null); 
 
  
   const apiUrl = process.env.NODE_ENV === 'production'
@@ -46,14 +41,12 @@ const Bloc5 = () => {
     fetchData();
   }, [apiUrl]);  
 
-  // Fonction pour ajouter une nouvelle œuvre.
   const addOeuvre = async () => {
     const title = document.getElementById('oeuvreTitle').value;
     const category = document.getElementById('oeuvreCategory').value;
     const tags = document.getElementById('oeuvreTags').value.split(',').map(tag => tag.trim());  
     const imageUrl = document.getElementById('oeuvreImageUrl').value;
   
-    // Vérification : tous les champs doivent être remplis
     if (!title || !category || !tags.length || !imageUrl) {
       alert('Tous les champs (Titre, Catégorie, Tags, URL de l\'image) doivent être remplis.');
       return;
@@ -71,7 +64,6 @@ const Bloc5 = () => {
     }
   };
 
-  // Fonction pour supprimer une œuvre par son ID.
   const deleteOeuvre = async (id) => {
     try {
       await axios.delete(`${apiUrl}/api/oeuvres/${id}`, {
@@ -83,7 +75,7 @@ const Bloc5 = () => {
     }
   };
 
-  // Fonction pour modifier une œuvre.
+  
   const editOeuvre = async (id) => {
     const title = document.getElementById('editOeuvreTitle').value;
     const category = document.getElementById('editOeuvreCategory').value;
@@ -95,7 +87,7 @@ const Bloc5 = () => {
       const result = await axios.put(`${apiUrl}/api/oeuvres/${id}`, updatedOeuvre, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      setOeuvres(oeuvres.map(oeuvre => (oeuvre._id === id ? result.data : oeuvre))); // Met à jour l'œuvre modifiée.
+      setOeuvres(oeuvres.map(oeuvre => (oeuvre._id === id ? result.data : oeuvre))); 
       setEditingOeuvre(null);  
     } catch (error) {
       console.error('Failed to update oeuvre:', error);
@@ -115,7 +107,6 @@ const Bloc5 = () => {
     }
   };
 
-  // Ajouter une nouvelle catégorie.
   const addCategory = async () => {
     const category = document.getElementById('newCategory').value;
     try {
@@ -128,7 +119,6 @@ const Bloc5 = () => {
     }
   };
 
-  // Supprimer une catégorie par son ID.
   const deleteCategory = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cette catégorie ?")) {
       try {
@@ -142,7 +132,7 @@ const Bloc5 = () => {
     }
   };
 
-  // Ajouter un nouveau tag.
+  
   const addTag = async () => {
     const tag = document.getElementById('newTag').value;
     try {
@@ -181,113 +171,146 @@ const Bloc5 = () => {
     <div className="projet-container">
       <h2>Vous voulez voir d'autres de mes créations ?</h2>
       <p>C'est très simple, il vous suffit d'interagir ici avec la boîte de recherche</p>
-      
+
       <div className="filters">
-        <select 
+        <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
           aria-label="Select category"
         >
           <option value="">Toutes les catégories</option>
-          {categories.map(category => (
-            <option key={category._id} value={category.name}>{category.name}</option>
+          {categories.map((category) => (
+            <option key={category._id} value={category.name}>
+              {category.name}
+            </option>
           ))}
         </select>
-        
-        <select 
+
+        <select
           value={selectedTag}
           onChange={(e) => setSelectedTag(e.target.value)}
           aria-label="Select tag"
         >
           <option value="">Tous les tags</option>
-          {tags.map(tag => (
-            <option key={tag._id} value={tag.name}>{tag.name}</option>
+          {tags.map((tag) => (
+            <option key={tag._id} value={tag.name}>
+              {tag.name}
+            </option>
           ))}
         </select>
       </div>
-      
+
       <div className="flex-container">
         {isAdmin() && (
           <div className="commands-cell">
             <div>
-              <input type="text" placeholder="Titre de l'œuvre" id="oeuvreTitle" aria-label="Titre de l'œuvre" aria-required="true" />
-              <input type="text" placeholder="Catégorie" id="oeuvreCategory" aria-label="Catégorie" aria-required="true" />
-              <input type="text" placeholder="Tags (séparés par des virgules)" id="oeuvreTags" aria-label="Tags" aria-required="true" />
-              <input type="text" placeholder="URL de l'image" id="oeuvreImageUrl" aria-label="URL de l'image" aria-required="true" />
-              
+              <input
+                type="text"
+                placeholder="Titre de l'œuvre"
+                id="oeuvreTitle"
+                aria-label="Titre de l'œuvre"
+                aria-required="true"
+              />
+              <input
+                type="text"
+                placeholder="Catégorie"
+                id="oeuvreCategory"
+                aria-label="Catégorie"
+                aria-required="true"
+              />
+              <input
+                type="text"
+                placeholder="Tags (séparés par des virgules)"
+                id="oeuvreTags"
+                aria-label="Tags"
+                aria-required="true"
+              />
+              <input
+                type="text"
+                placeholder="URL de l'image"
+                id="oeuvreImageUrl"
+                aria-label="URL de l'image"
+                aria-required="true"
+              />
               <div className="add-button-container">
-  <button onClick={addOeuvre}>Ajouter</button>
-</div>
+                <button onClick={addOeuvre}>Ajouter</button>
+              </div>
             </div>
-  
+
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-              <FontAwesomeIcon 
-                icon={faPlus} 
-                onClick={addCategory} 
+              <FontAwesomeIcon
+                icon={faPlus}
+                onClick={addCategory}
                 style={{ cursor: 'pointer', fontSize: '22px', marginRight: '8px' }}
               />
               <input id="newCategory" type="text" placeholder="Nouvelle catégorie" />
             </div>
-  
+
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-              <FontAwesomeIcon 
-                icon={faPlus} 
-                onClick={addTag} 
+              <FontAwesomeIcon
+                icon={faPlus}
+                onClick={addTag}
                 style={{ cursor: 'pointer', fontSize: '22px', marginRight: '8px' }}
               />
               <input id="newTag" type="text" placeholder="Nouveau tag" />
             </div>
-  
-            { }
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', marginTop: '25px', fontWeight: 'lighter' }}>
 
+            <div className="existing-categories">
               <h3>Catégories Existantes</h3>
-            </div>
-            <div>
-              {categories.map(category => (
-                <div key={category._id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', marginTop: '20px'}}>
-                  <span style={{ marginRight: '8px' }}>–</span>
-                  <span style={{ fontSize: '18px' }}>{category.name}</span>
-                  <FontAwesomeIcon 
-                    icon={faTrash} 
-                    onClick={() => deleteCategory(category._id)} 
+              {categories.map((category) => (
+                <div key={category._id} className="existing-item">
+                  <span>– {category.name}</span>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    onClick={() => deleteCategory(category._id)}
                     style={{ cursor: 'pointer', marginLeft: '15px', fontSize: '22px' }}
                   />
                 </div>
               ))}
             </div>
-  
-            { }
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', marginTop: '25px' }}>
+
+            <div className="existing-tags">
               <h3>Tags Existants</h3>
-            </div> 
-  
-            <div>
-              {tags.map(tag => (
-                <div key={tag._id} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-                  <span style={{ marginRight: '8px' }}>–</span>
-                  <span style={{ fontSize: '18px' }}>{tag.name}</span>
-                  <FontAwesomeIcon 
-                    icon={faTrash} 
-                    onClick={() => deleteTag(tag._id)} 
+              {tags.map((tag) => (
+                <div key={tag._id} className="existing-item">
+                  <span>– {tag.name}</span>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    onClick={() => deleteTag(tag._id)}
                     style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '22px' }}
                   />
                 </div>
               ))}
             </div>
-  
-            { }
+
             {editingOeuvre && (
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', marginTop: '25px', marginBottom: '25px'}}>
-                  <h3>Modifier Œuvre</h3>
-                </div>
-                <input type="text" placeholder="Titre de l'œuvre" defaultValue={editingOeuvre.title} id="editOeuvreTitle" aria-label="Titre de l'œuvre" aria-required="true" />
-                <input type="text" placeholder="Catégorie" defaultValue={editingOeuvre.category} id="editOeuvreCategory" aria-label="Catégorie" aria-required="true" />
-                <input type="text" placeholder="Tags (séparés par des virgules)" defaultValue={editingOeuvre.tags.join(',')} id="editOeuvreTags" aria-label="Tags" aria-required="true" />
-                <input type="text" placeholder="URL de l'image" defaultValue={editingOeuvre.imageUrl} id="editOeuvreImageUrl" aria-label="URL de l'image" aria-required="true" />
-                
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', marginTop: '25px' }}>
+              <div className="edit-oeuvre">
+                <h3>Modifier Œuvre</h3>
+                <input
+                  type="text"
+                  placeholder="Titre de l'œuvre"
+                  defaultValue={editingOeuvre.title}
+                  id="editOeuvreTitle"
+                />
+                <input
+                  type="text"
+                  placeholder="Catégorie"
+                  defaultValue={editingOeuvre.category}
+                  id="editOeuvreCategory"
+                />
+                <input
+                  type="text"
+                  placeholder="Tags (séparés par des virgules)"
+                  defaultValue={editingOeuvre.tags.join(',')}
+                  id="editOeuvreTags"
+                />
+                <input
+                  type="text"
+                  placeholder="URL de l'image"
+                  defaultValue={editingOeuvre.imageUrl}
+                  id="editOeuvreImageUrl"
+                />
+                <div className="edit-buttons">
                   <button onClick={() => editOeuvre(editingOeuvre._id)}>Enregistrer</button>
                   <button onClick={() => setEditingOeuvre(null)}>Annuler</button>
                 </div>
@@ -295,29 +318,41 @@ const Bloc5 = () => {
             )}
           </div>
         )}
-  
-        { }
+
         <div className={`oeuvres-cell ${isAdmin() ? '' : 'user-view'}`}>
-          <Carousel showThumbs={false} showIndicators={true} showArrows={false} statusFormatter={statusFormatter}>
-            {filteredOeuvres.map(oeuvre => (
+          <Carousel
+            showThumbs={false}
+            showIndicators={false}
+            showArrows={true}
+            statusFormatter={statusFormatter}
+          >
+            {filteredOeuvres.map((oeuvre) => (
               <div key={oeuvre._id}>
-                <img src={oeuvre.imageUrl} alt={oeuvre.title} loading="lazy" width="298" height="298" />
-                <p className="legend">{oeuvre.title} - {oeuvre.category} - {oeuvre.tags.join(', ')}</p>
+                <img
+                  src={oeuvre.imageUrl}
+                  alt={oeuvre.title}
+                  loading="lazy"
+                  className="carousel-image"
+                />
+                <div classname ="a-legend">
+                <p className="legend">
+                  {oeuvre.title} - {oeuvre.category} - {oeuvre.tags.join(', ')}
+                </p></div>
                 {isAdmin() && (
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '30px', marginTop: '15px' }}>
-                    <FontAwesomeIcon 
-                      icon={faTrash} 
-                      onClick={() => deleteOeuvre(oeuvre._id)} 
+                  <div className="oeuvre-actions">
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      onClick={() => deleteOeuvre(oeuvre._id)}
                       style={{ cursor: 'pointer', fontSize: '22px' }}
                     />
-                    <FontAwesomeIcon 
-                      icon={faPen} 
-                      onClick={() => setEditingOeuvre(oeuvre)} 
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      onClick={() => setEditingOeuvre(oeuvre)}
                       style={{ cursor: 'pointer', fontSize: '22px' }}
                     />
-                    <FontAwesomeIcon 
-                      icon={oeuvre.isVisible ? faEye : faEyeSlash} 
-                      onClick={() => toggleVisibility(oeuvre._id)} 
+                    <FontAwesomeIcon
+                      icon={oeuvre.isVisible ? faEye : faEyeSlash}
+                      onClick={() => toggleVisibility(oeuvre._id)}
                       style={{ cursor: 'pointer', fontSize: '22px' }}
                     />
                   </div>
@@ -329,7 +364,6 @@ const Bloc5 = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Bloc5;

@@ -1,8 +1,3 @@
-// On importe les différentes bibliothèques et composants nécessaires.
-// React est utilisé pour créer notre interface utilisateur.
-// react-router-dom nous permet de gérer la navigation entre différentes pages de l'application.
-// AuthProvider gère tout ce qui concerne l'authentification des utilisateurs.
-
  
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -22,7 +17,7 @@ const App = () => {
   return (
     
     <AuthProvider>
-      {/* Le Router nous permet de changer de page sans recharger toute l'application. */}
+      { }
       <Router>
         { }
         <a href="#main-content" className="skip-link">Skip to main content</a>
@@ -30,9 +25,9 @@ const App = () => {
         { }
         <Header />
 
-        {/* Le contenu principal de la page est contenu ici. Le `id="main-content"` permet de rendre fonctionnel le lien d'accessibilité ci-dessus. */}
+        { }
         <main id="main-content">
-          {/* Routes : C'est ici qu'on définit quelles pages vont s'afficher selon l'URL dans laquelle on se trouve. */}
+          { }
           <Routes>
             { }
             <Route path="/" element={<MainPage />} />
@@ -52,7 +47,7 @@ const App = () => {
         </main>
 
         { }
-        <Footer />
+        
       </Router>
     </AuthProvider>
   );

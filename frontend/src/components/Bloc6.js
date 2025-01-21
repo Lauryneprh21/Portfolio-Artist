@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+ 
 import '../styles/Bloc6.css';
 
 const Bloc6 = () => {
-  // Définition des états pour gérer le formulaire de contact.
-  const [name, setName] = useState(''); // État pour stocker le nom de l'utilisateur.
-  const [email, setEmail] = useState(''); // État pour stocker l'adresse e-mail de l'utilisateur.
-  const [message, setMessage] = useState(''); // État pour stocker le message de l'utilisateur.
-  const [successMessage, setSuccessMessage] = useState(''); // État pour afficher le message de succès ou d'erreur après l'envoi du formulaire.
+  const [name, setName] = useState(''); 
+  const [email, setEmail] = useState(''); 
+  const [message, setMessage] = useState(''); 
+  const [successMessage, setSuccessMessage] = useState(''); 
  
  
   const apiUrl = process.env.NODE_ENV === 'production'
@@ -15,7 +15,7 @@ const Bloc6 = () => {
 
   
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Empêche le rechargement de la page.
+    e.preventDefault(); 
 
      
     const token = localStorage.getItem('token');
@@ -26,7 +26,6 @@ const Bloc6 = () => {
     }
 
     try {
-      // Envoi d'une requête POST à l'API pour envoyer un e-mail.
       const response = await fetch(`${apiUrl}/api/send-email`, {
         method: 'POST',
         headers: {
@@ -123,7 +122,9 @@ const Bloc6 = () => {
         { }
         {successMessage && <p>{successMessage}</p>}
       </div>
+      
     </div>
+    
   );
 };
 

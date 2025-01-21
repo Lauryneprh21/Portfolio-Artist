@@ -6,10 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; 
 
 const ResetPasswordPage = () => {
-  // États pour gérer les valeurs des champs de formulaire et les messages d'erreur/succès.
-  const [password, setPassword] = useState(''); // Stocke le nouveau mot de passe.
-  const [confirmPassword, setConfirmPassword] = useState(''); // Stocke la confirmation du mot de passe.
-  const [message, setMessage] = useState(''); // Stocke les messages à afficher (erreurs ou succès).
+   const [password, setPassword] = useState('');  
+  const [confirmPassword, setConfirmPassword] = useState('');  
+  const [message, setMessage] = useState('');  
   const [showPassword, setShowPassword] = useState(false);  
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);  
 
@@ -21,8 +20,7 @@ const ResetPasswordPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); 
 
-    // Vérification de la correspondance des mots de passe.
-    if (password !== confirmPassword) {
+     if (password !== confirmPassword) {
       setMessage('Les mots de passe ne correspondent pas');
       return;
     }
@@ -38,63 +36,60 @@ const ResetPasswordPage = () => {
 
        
       if (response.status === 200) {
-        setMessage('Mot de passe réinitialisé avec succès');
-        navigate('/login'); 
+        window.alert('Mot de passe réinitialisé avec succès !');  
+        navigate('/login');  
       } else {
-        setMessage(response.data.message); 
+        setMessage(response.data.message);
       }
     } catch (error) {
-      
       console.error('Reset password error:', error);
       setMessage('Erreur lors de la réinitialisation du mot de passe');
     }
   };
 
   return (
-    <div className="reset-password-container">
-      <h2>Réinitialiser le mot de passe</h2>
-      
-      { }
-      <form onSubmit={handleSubmit}>
-        <div className="password-input">
-          <label>Nouveau mot de passe</label>
-          <input
-            type={showPassword ? 'text' : 'password'} 
-            placeholder="Nouveau mot de passe"
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required
-          />
-          {}
-          <FontAwesomeIcon 
-            icon={showPassword ? faEyeSlash : faEye} 
-            className="toggle-password" 
-            onClick={() => setShowPassword(!showPassword)} 
-          />
+    <div className="page-container">
+      <div className="content-wrap">
+        <div className="reset-password-container">
+          <h2>Réinitialiser le mot de passe</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="password-input">
+              <label>Nouveau mot de passe</label>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Nouveau mot de passe"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
+  
+            <div className="password-input">
+              <label>Confirmer le mot de passe</label>
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                placeholder="Confirmer mot de passe"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+              <FontAwesomeIcon
+                icon={showConfirmPassword ? faEyeSlash : faEye}
+                className="toggle-password"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              />
+            </div>
+  
+            <button type="submit">Réinitialiser le mot de passe</button>
+          </form>
+          {message && <p>{message}</p>}
         </div>
-
-        <div className="password-input">
-          <label>Confirmer le mot de passe</label>
-          <input
-            type={showConfirmPassword ? 'text' : 'password'} 
-            placeholder="Confirmer mot de passe"
-            value={confirmPassword} 
-            onChange={(e) => setConfirmPassword(e.target.value)} 
-            required
-          />
-          {}
-          <FontAwesomeIcon 
-            icon={showConfirmPassword ? faEyeSlash : faEye} 
-            className="toggle-password" 
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)} 
-          />
-        </div>
-
-        <button type="submit">Réinitialiser le mot de passe</button>
-      </form>
-
-      {}
-      {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };

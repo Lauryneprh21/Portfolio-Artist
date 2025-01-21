@@ -11,24 +11,21 @@ const NextArrow = (props) => {
   return (
     <button
       className={className}
-      style={{ 
-        ...style, 
-    
-        background: 'gray', 
-        borderRadius: '50%', 
-        width: '40px', 
-        height: '40px', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center' 
+      style={{
+          borderRadius: '50%',
+        width: '40px',
+        height: '40px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
-      onClick={onClick}  
-      aria-label="Next slide"
+      onClick={onClick}
     >
-      <i className="fas fa-chevron-right" style={{ color: 'white', fontSize: '20px', lineHeight: '1.5em' }} role="presentation"></i>
+      <i className="fas fa-chevron-right" />
     </button>
   );
 };
+
 
  
 const PrevArrow = (props) => {
@@ -39,7 +36,7 @@ const PrevArrow = (props) => {
       style={{ 
         ...style, 
        
-        background: 'gray', 
+       
         borderRadius: '50%', 
         width: '40px', 
         height: '40px', 
@@ -47,32 +44,33 @@ const PrevArrow = (props) => {
         alignItems: 'center', 
         justifyContent: 'center' 
       }}
-      onClick={onClick} // Action déclenchée au clic pour faire défiler à gauche
+      onClick={onClick} 
       aria-label="Previous slide"
     >
-      <i className="fas fa-chevron-left" style={{ color: 'white', fontSize: '20px', lineHeight: '1.5em' }} role="presentation"></i>
-    </button>
+     </button>
   );
 };
 
 const Bloc4 = () => {
   
   const settings = {
-    dots: false, // Pas de points pour la navigation entre slides.
-    infinite: true, // Le défilement est infini, revient au début après la dernière slide.
-    speed: 500, // Vitesse de transition entre slides en millisecondes.
+    dots: false,  
+    infinite: true,  
+    speed: 500,  
     slidesToShow: 3,  
-    slidesToScroll: 1, // Nombre de slides à faire défiler à chaque clic.
+    slidesToScroll: 1,  
+    centerMode: false,
     nextArrow: <NextArrow />,  
     prevArrow: <PrevArrow />,  
     responsive: [
       {
         breakpoint: 1024,  
         settings: {
-          slidesToShow: 2, // On montre 2 slides seulement.
+          slidesToShow: 2,  
           slidesToScroll: 1, 
           infinite: true,
-          dots: false  
+          dots: false ,
+          centerMode: false,
         }
       },
       {

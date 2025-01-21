@@ -5,9 +5,10 @@ import Bloc3 from './Bloc3';
 import Bloc4 from './Bloc4';  
 import Bloc5 from './Bloc5';  
 import Bloc6 from './Bloc6';  
+import Footer from './Footer';
 
-// Composant principal de la page d'accueil.
-const MainPage = () => {
+
+ const MainPage = () => {
   return (
     <div>
       {}
@@ -39,6 +40,7 @@ const MainPage = () => {
       <section id="contact">
         <Bloc6 />
       </section>
+      <Footer />
     </div>
   );
 };

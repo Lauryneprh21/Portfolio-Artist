@@ -1,9 +1,9 @@
-const mongoose = require('mongoose'); // ODM pour MongoDB, permet de modéliser les données et interagir avec la base de données.
-const bcrypt = require('bcryptjs'); // Bibliothèque pour hacher les mots de passe.
-const dotenv = require('dotenv'); // Charge les variables d'environnement à partir d'un fichier .env.
-const User = require('./models/User'); // Modèle utilisateur pour MongoDB, définit la structure des documents utilisateur dans la collection.
+const mongoose = require('mongoose');  
+const bcrypt = require('bcryptjs');  
+const dotenv = require('dotenv');  
+const User = require('./models/User');  
 
-dotenv.config(); // Charge les variables d'environnement à partir du fichier `.env`.
+dotenv.config();  
 
  
 const resetPassword = async () => {
@@ -29,7 +29,7 @@ const resetPassword = async () => {
       { new: true }  
     );
 
-    // Si l'utilisateur a été trouvé et mis à jour, affiche un message de succès.
+     
     if (user) {
       console.log(`Password for ${email} has been reset.`);
     } else {

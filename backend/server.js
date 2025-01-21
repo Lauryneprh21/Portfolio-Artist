@@ -227,7 +227,15 @@ app.put('/api/update-paragraph', authMiddleware, async (req, res) => {
 
 
 
-
+app.get('/api/get-paragraph', async (req, res) => {
+  try {
+    const content = await Content.findOne({ type: 'paragraph' });
+     res.status(200).json({ paragraph: content ? content.text : '' });
+  } catch (error) {
+    console.error('Erreur lors du chargement du paragraphe :', error);
+    res.status(500).json({ message: 'Erreur serveur lors du chargement du paragraphe.' });
+  }
+});
 
 
 
@@ -346,7 +354,6 @@ if (fs.existsSync(clientBuildPath)) {
   console.error('Le dossier frontend/build est introuvable.');
 }
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 5002;  
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+

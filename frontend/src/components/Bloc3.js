@@ -1,41 +1,56 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import '../styles/Bloc3.css';
 import AuthContext from '../AuthContext';
 import axios from 'axios';
 
 const Bloc3 = () => {
   const { isAdmin } = useContext(AuthContext);
+  const paragraphRef = useRef(null);
 
   const apiUrl = process.env.NODE_ENV === 'production'
     ? process.env.REACT_APP_API_URL_PROD
     : process.env.REACT_APP_API_URL_LOCAL;
 
-  const [paragraph, setParagraph] = useState(`Passionné(e) de design, je crée des interfaces intuitives et esthétiques pour améliorer l'expérience utilisateur. 
-Mon travail allie créativité et fonctionnalité pour donner vie à des idées uniques.
+  const [paragraph, setParagraph] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
-Chaque projet est une opportunité de repousser les limites du design et de l'innovation. 
-J'accorde une attention particulière aux détails pour garantir que chaque interaction soit fluide et agréable.
-Mon objectif est de créer des solutions sur mesure qui non seulement répondent aux besoins des utilisateurs, 
-mais qui les enchantent également par leur beauté et leur simplicité.`);
-
-  const [message, setMessage] = useState("");  
-
-  const handleParagraphChange = (e) => {
-    setParagraph(e.target.textContent);
-  };
+  useEffect(() => {
+    const fetchParagraph = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/api/get-paragraph`);
+        setParagraph(response.data.paragraph || '');
+      } catch (error) {
+        console.error('Erreur lors du chargement du paragraphe :', error);
+      }
+    };
+    fetchParagraph();
+  }, [apiUrl]);
 
   const handleBlur = async () => {
+    if (!isAdmin()) return; 
+
+    setIsSaving(true);
+
+    const finalText = paragraphRef.current.innerText;
+
+    setParagraph(finalText);
+
     try {
-      const response = await axios.put(`${apiUrl}/api/update-paragraph`, { paragraph }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
-      setMessage("Paragraphe sauvegardé avec succès !"); // Affiche un message de succès
-      console.log("Modifications sauvegardées:", response.data);
+      await axios.put(
+        `${apiUrl}/api/update-paragraph`,
+        { paragraph: finalText },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }
+      );
+      setMessage('Paragraphe sauvegardé avec succès !');
     } catch (error) {
-      setMessage("Erreur lors de la sauvegarde du paragraphe.");
-      console.error("Erreur lors de la sauvegarde des modifications:", error);
+      console.error(error);
+      setMessage('Erreur lors de la sauvegarde du paragraphe.');
     } finally {
-      setTimeout(() => setMessage(""), 3000);  
+      setIsSaving(false);
+      setTimeout(() => setMessage(''), 3000);
     }
   };
 
@@ -49,22 +64,25 @@ mais qui les enchantent également par leur beauté et leur simplicité.`);
         <hr className="custom-line" />
       </div>
 
-      <div className="bloc3-text-section">
+      <div className={`bloc3-text-section ${isAdmin() ? "admin-editable" : ""}`}>
         <p
+          ref={paragraphRef}
           contentEditable={isAdmin()}
           suppressContentEditableWarning={true}
-          onInput={handleParagraphChange}
           onBlur={handleBlur}
           style={{
-            border: isAdmin() ? '1px dashed gray' : 'none',
-            padding: isAdmin() ? '5px' : '0',
-            whiteSpace: 'pre-wrap'
+            outline: isAdmin() ? '1px solid #ccc' : 'none',
+            padding: '5px',
           }}
-        >
-          {paragraph}
-        </p>
-        { }
-        {message && <p style={{ color: message.includes("Erreur") ? 'red' : 'green' }}>{message}</p>}
+          dangerouslySetInnerHTML={{ __html: paragraph }}
+        />
+
+        {isSaving && <p style={{ color: 'blue' }}>Sauvegarde en cours...</p>}
+        {message && (
+          <p style={{ color: message.includes('Erreur') ? 'red' : 'green' }}>
+            {message}
+          </p>
+        )}
       </div>
     </section>
   );

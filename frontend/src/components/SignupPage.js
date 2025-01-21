@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios'; 
- 
-import '../styles/SignupPage.css'; 
+import axios from 'axios';
+import Footer from './Footer';
+import '../styles/Login.css';  
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
@@ -11,7 +11,6 @@ const SignupPage = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (!emailRegex.test(email)) {
       setError('Veuillez entrer une adresse email valide.');
@@ -25,8 +24,6 @@ const SignupPage = () => {
     try {
       const response = await axios.post(`${apiUrl}/api/signup`, { email, password });
       setError('');
-      
-      
       alert('Inscription réussie !');
     } catch (err) {
       setError(err.response?.data?.message || 'Une erreur est survenue');
@@ -35,31 +32,34 @@ const SignupPage = () => {
 
   return (
     <div className="page-container">
-      <div className="signup-container">
-        <h2>Inscription</h2>
-        <form onSubmit={handleSignup}>
-          <div>
-            <label>Email</label>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
-          </div>
-          <div>
-            <label>Mot de passe</label>
-            <input 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
-          </div>
-          <button type="submit">Envoyer</button>
-        </form>
+      <div className="content-wrap">
+        <div className="login-container">
+          <h2>Inscription</h2>
+          <form onSubmit={handleSignup}>
+            <div>
+              <label>Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>Mot de passe</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit">S'inscrire</button>
+          </form>
+          {error && <p>{error}</p>}
+        </div>
       </div>
-      
+      <Footer />
     </div>
   );
 };

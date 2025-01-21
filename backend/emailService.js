@@ -1,20 +1,19 @@
-const nodemailer = require('nodemailer'); // On importe Nodemailer pour envoyer des emails.
+const nodemailer = require('nodemailer');  
 
 const sendResetEmail = async (userEmail, resetUrl) => {
   
   const transporter = nodemailer.createTransport({
     service: 'icloud',  
     auth: {
-      user: process.env.EMAIL_USER,  // L'adresse email utilisée pour l'envoi, récupérée depuis les variables d'environnement.
-      pass: process.env.EMAIL_PASS,  // Le mot de passe associé à cette adresse email, également récupéré des variables d'environnement.
+      user: process.env.EMAIL_USER,   
+      pass: process.env.EMAIL_PASS,   
     },
     tls: {
       rejectUnauthorized: false,  
     },
   });
 
-  // Configuration de l'email à envoyer.
-  const mailOptions = {
+   const mailOptions = {
     from: process.env.EMAIL_USER,  
     to: userEmail,  
     subject: 'Lien de réinitialisation de mot de passe',  
