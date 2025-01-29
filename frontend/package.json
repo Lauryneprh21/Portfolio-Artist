@@ -48,8 +48,8 @@
     "dev": "concurrently \"yarn backend\" \"yarn start\""
   },
   "engines": {
-    "node": "16.x"
-  },
+  "node": ">=18"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
