@@ -6,7 +6,7 @@ const AuthContext = createContext();
 
  const API_URL = process.env.NODE_ENV === 'development' 
   ? 'http://localhost:5002/api' 
-  : 'https://portfolio-test-1-r0vs.onrender.com/api';  
+  : 'https://portfolio-backend-t0pr.onrender.com/api';
 
  export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);  
