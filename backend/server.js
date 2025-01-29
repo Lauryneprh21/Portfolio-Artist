@@ -344,15 +344,18 @@ app.delete('/api/categories/:id', async (req, res) => {
   }
 });
 
-const clientBuildPath = path.join(__dirname, '../frontend/build');
-if (fs.existsSync(clientBuildPath)) {
-  app.use(express.static(clientBuildPath));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(clientBuildPath, 'index.html'));
-  });
-} else {
-  console.error('Le dossier frontend/build est introuvable.');
-}
+// const path = require('path');
+// const fs = require('fs');
+
+// const clientBuildPath = path.join(__dirname, '../frontend/build');
+// if (fs.existsSync(clientBuildPath)) {
+//   app.use(express.static(clientBuildPath));
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.join(clientBuildPath, 'index.html'));
+//   });
+// } else {
+//   console.error('Le dossier frontend/build est introuvable.');
+// }
 
 const PORT = process.env.PORT || 5002;  
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
