@@ -13,7 +13,7 @@ const Tag = require('./models/Tag');
 const { sendResetEmail } = require('./emailService');
 
 dotenv.config();
-const fs = require('fs');
+// const fs = require('fs');
 const app = express();
 
 const allowedOrigins = [
