@@ -357,7 +357,10 @@ app.delete('/api/categories/:id', async (req, res) => {
 //   console.error('Le dossier frontend/build est introuvable.');
 // }
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 10000; // Utilise le port dynamique de Render
+app.listen(PORT, () => {
+    console.log(`✅ Backend lancé sur http://localhost:${PORT}`);
+});
+
 
 
